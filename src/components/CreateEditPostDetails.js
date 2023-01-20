@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 
 function CreateEditPostDetails() {
   const [postData, setPostData] = useState({});
+  const [error, setError] = useState(false);
   let { editId } = useParams();
   let isEdit = false;
 
@@ -43,8 +44,13 @@ function CreateEditPostDetails() {
           rows="8"
           cols="100"
         />
+        {error && <span id="error">Please enter valid Title and Content</span>}
         <button
           onClick={() => {
+            if (!postData.title || !postData.body) {
+              setError(true);
+              return;
+            }
             axios({
               method: isEdit ? "put" : "post",
               url: "https://jsonplaceholder.typicode.com/posts",
