@@ -6,8 +6,7 @@ import { useParams } from "react-router-dom";
 function CreateEditPostDetails() {
   const [postData, setPostData] = useState({});
   let { editId } = useParams();
-  let pageHeading = "Add New Post";
-  let updateButton = "Add";
+  let isEdit = false;
 
   const fetchData = async () => {
     const postsData = await axios.get(
@@ -20,18 +19,16 @@ function CreateEditPostDetails() {
     if (!Object.keys(postData)?.length) {
       fetchData();
     }
-    pageHeading = "Edit Post";
-    updateButton = "Update"
+    isEdit = true;
   }
-
   return (
     <div>
       <header className="App-header postDetail">
-        <h1>{pageHeading}</h1>
+        <h1>{isEdit ? "Edit Post" : "Add New Post"}</h1>
         <p>Title</p>
         <input
           type="text"
-          onChange={(e) => setPostData({ title: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, title: e.target.value })}
           value={postData.title}
           name="task"
           required
@@ -41,7 +38,7 @@ function CreateEditPostDetails() {
         <p>Content</p>
         <textarea
           type="text"
-          onChange={(e) => setPostData({ body: e.target.value })}
+          onChange={(e) => setPostData({ ...postData, body: e.target.value })}
           value={postData.body}
           rows="8"
           cols="100"
@@ -49,7 +46,7 @@ function CreateEditPostDetails() {
         <button
           onClick={() => {
             axios({
-              method: "post",
+              method: isEdit ? "put" : "post",
               url: "https://jsonplaceholder.typicode.com/posts",
               data: JSON.stringify({
                 ...postData,
@@ -61,9 +58,9 @@ function CreateEditPostDetails() {
             });
             window.location.href = "/";
           }}
-          class="button"
+          className="button"
         >
-          {updateButton}
+          {isEdit ? "Update" : "Add"}
         </button>
       </header>
     </div>

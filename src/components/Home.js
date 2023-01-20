@@ -12,13 +12,10 @@ function App() {
       );
       setData(postsData?.data);
     };
-    console.log('11111111',data);
     if (!data?.length) {
       fetchData();
     }
   }, [data]);
-
-  // console.log("here data", data);
 
   return (
     <div>
@@ -29,21 +26,22 @@ function App() {
             e.preventDefault();
             window.location.href = "/createPost";
           }}
-          class="button"
+          className="button"
         >
           Add New Post
         </button>
         <table>
+          <tbody>
           <tr>
             <th>Title</th>
             <th>Delete</th>
           </tr>
           {data.map(({ title, id }) => (
-            <tr>
-              <td>
+            <tr id={id}>
+              <td id={`${id}-a`}>
                 <a href={`/post/${id}`}>{title}</a>
               </td>
-              <td className="textAlignCenter">
+              <td className="textAlignCenter" id={`${id}-td`}>
                 <Icon
                   className={"iconClaass"}
                   name="delete"
@@ -60,6 +58,7 @@ function App() {
               </td>
             </tr>
           ))}
+          </tbody>
         </table>
       </header>
     </div>

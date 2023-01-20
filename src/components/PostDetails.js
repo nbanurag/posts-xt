@@ -19,8 +19,6 @@ function PostDetails() {
     }
   }, [post, id]);
 
-  console.log("here data22", post);
-
   return (
     <div>
       <header className="App-header postDetail">
@@ -33,7 +31,7 @@ function PostDetails() {
             e.preventDefault();
             window.location.href = `/editPost/${id}`;
           }}
-          class="button"
+          className="button"
         >
           Edit Post
         </button>
